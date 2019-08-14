@@ -1,18 +1,36 @@
 <template>
   <v-app>
-    <core-toolbar />
+    <v-app-bar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Vuetify</span>
+        <span class="font-weight-light">MATERIAL DESIGN</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        text
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">Latest Release</span>
+      </v-btn>
+    </v-app-bar>
 
-    <core-drawer />
-
-    <core-view />
+    <v-content>
+      <HelloWorld/>
+    </v-content>
   </v-app>
 </template>
 
-<style lang="scss">
-@import '@/styles/index.scss';
+<script>
+import HelloWorld from './components/HelloWorld';
 
-/* Remove in 1.2 */
-.v-datatable thead th.column.sortable i {
-  vertical-align: unset;
-}
-</style>
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+  },
+  data: () => ({
+    //
+  }),
+};
+</script>
