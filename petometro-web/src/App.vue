@@ -1,36 +1,55 @@
 <template>
-  <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-app-bar>
-
+  <v-app id="inspire" dark>
+    <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
+      <side-bar/>
+    </v-navigation-drawer>
+    <toolbar />
     <v-content>
-      <HelloWorld/>
+      <v-container fluid fill-height>
+        <v-layout justify-center >
+          <progress-circular/>
+          <progress-bar/>
+          <router-view />
+        </v-layout>
+      </v-container>
     </v-content>
+    <toastr/>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import Toolbar from '@/components/General/Toolbar'
+import Toastr from '@/components/General/Toastr'
+import ProgressBar from '@/components/General/ProgressBar'
+import SideBar from '@/components/General/SideBar'
+import StoreGeneralConstants from '@/store/constants/general'
+import ProgressCircular from '@/components/General/ProgressCircular'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'App',
   components: {
-    HelloWorld,
+    ProgressCircular,
+    Toolbar,
+    SideBar,
+    ProgressBar,
+    Toastr
   },
-  data: () => ({
-    //
-  }),
-};
+  props: {
+    source: String
+  },
+  computed: {
+    ...mapGetters({
+      drawer: StoreGeneralConstants.GETTERS.SHOW_DRAWER
+    })
+  }
+}
 </script>
+
+<style>
+.img-logo{
+  max-height: 36px;
+  width: auto !important;
+}
+.no-display{
+  display: none;
+}
+</style>
