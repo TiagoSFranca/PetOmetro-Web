@@ -1,38 +1,28 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+
+// Components
+import './components'
+
+// Plugins
+import './plugins'
+
+// Sync router with store
+import { sync } from 'vuex-router-sync'
+
+// Application imports
 import App from './App'
-import router from './router'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import Axios from 'axios'
-import StoreAuthConstants from '@/store/constants/auth'
-import store from '@/store/store'
+import i18n from '@/i18n'
+import router from '@/router'
+import store from '@/store'
 
-Vue.use(Vuetify, {
-  theme: {
-    primary: '#03a9f4',
-    secondary: '#cddc39',
-    accent: '#009688',
-    error: '#f44336',
-    warning: '#ffc107',
-    info: '#607d8b',
-    success: '#8bc34a'
-  }
-})
+// Sync store with router
+sync(store, router)
 
-Axios.defaults.baseURL = process.env.API_ENDPOINT
-if (store.getters[StoreAuthConstants.GETTERS.IS_AUTH]) {
-  Axios.defaults.headers.common[StoreAuthConstants.STATES.TOKEN] = store.getters[StoreAuthConstants.GETTERS.TOKEN]
-}
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  i18n,
   router,
   store,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App)
+}).$mount('#app')

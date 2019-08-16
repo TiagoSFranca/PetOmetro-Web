@@ -1,36 +1,47 @@
+// Lib imports
 import Vue from 'vue'
+import VueAnalytics from 'vue-analytics'
 import Router from 'vue-router'
-import guest from '@/middleware/guest'
-import HomeIndex from '@/components/Home/Index'
-import Login from '@/components/Account/Login'
-import serieRouter from '@/router/serie-router'
+import Meta from 'vue-meta'
+
+// Routes
+import paths from './paths'
+
+function route (path, view, name, meta, children) {
+  if (children) {
+    children = children.map(child => route(child.path, child.view, child.name, child.meta))
+  }
+  if (view) {
+    view = view.replace('.', '/')
+  }
+  return {
+    name: name || view,
+    path,
+    component: (resovle) => import(
+      `@/views/${view}.vue`
+    ).then(resovle),
+    meta: meta,
+    children: children
+  }
+}
 
 Vue.use(Router)
 
-const baseRoutes = [
-  {
-    path: '/',
-    name: 'home.index',
-    component: HomeIndex,
-    meta: {
-      title: 'Início'
-    }
-  },
-  {
-    path: '/Login',
-    name: 'account.login',
-    component: Login,
-    meta: {
-      title: 'Entrar',
-      middleware: guest
-    }
-  }
-]
-
-let routes = baseRoutes.concat(serieRouter)
-
+// Create a new router
 const router = new Router({
-  routes
+  mode: 'history',
+  routes: paths.map(path => route(path.path, path.view, path.name, path.meta, path.children)).concat([
+    { path: '*', redirect: '/login' }
+  ]),
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    if (to.hash) {
+      return { selector: to.hash }
+    }
+    return { x: 0, y: 0 }
+  }
 })
 
 function nextFactory (context, middleware, index) {
@@ -45,8 +56,6 @@ function nextFactory (context, middleware, index) {
 }
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title + ' - SerieList'
-  next()
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware)
       ? to.meta.middleware
@@ -62,8 +71,22 @@ router.beforeEach((to, from, next) => {
 
     return middleware[0]({ ...context, next: nextMiddleware })
   }
-
   return next()
 })
+
+Vue.use(Meta)
+
+// Bootstrap Analytics
+// Set in .env
+// https://github.com/MatteoGabriele/vue-analytics
+if (process.env.GOOGLE_ANALYTICS) {
+  Vue.use(VueAnalytics, {
+    id: process.env.GOOGLE_ANALYTICS,
+    router,
+    autoTracking: {
+      page: process.env.NODE_ENV !== 'development'
+    }
+  })
+}
 
 export default router
