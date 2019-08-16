@@ -1,5 +1,11 @@
 <template>
   <v-app>
+    <core-toolbar />
+    
+    <core-drawer />
+
+    <core-view />
+
     <core-toastr />
     <core-progress-bar />
   </v-app>
@@ -18,6 +24,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

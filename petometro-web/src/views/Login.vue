@@ -14,7 +14,8 @@
           light>
           <v-toolbar
             dark
-            color="accent">
+            flat
+            color="primary">
             <v-toolbar-title>Entrar</v-toolbar-title>
           </v-toolbar>
           <v-form

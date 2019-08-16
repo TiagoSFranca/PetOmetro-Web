@@ -11,7 +11,8 @@
         sm12
         lg12>
         <v-tabs
-          background-color="deep-purple accent-4"
+          background-color="deep-purple lighten-5"
+          color="blue lighten-1"
           class="elevation-2"
           right
           icons-and-text

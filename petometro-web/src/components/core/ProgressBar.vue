@@ -1,19 +1,21 @@
 <template>
-  <v-dialog
-    v-model="progressBar"
-    persistent
-    width="300">
-    <v-card
-      color="tertiary"
-      dark>
-      <v-card-text>
-        <v-progress-linear
-          indeterminate
-          color="success"
-          class="mb-1" />
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+  <v-row justify="center">
+    <v-dialog
+      v-model="progressBar"
+      persistent
+      width="300">
+      <v-card
+        dark>
+        <v-card-text>
+          Por favor, aguarde...
+          <v-progress-linear
+            indeterminate
+            absolute
+            color="success" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 <script>
 import {

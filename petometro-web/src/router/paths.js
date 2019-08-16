@@ -12,6 +12,14 @@ export default [
     }
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    view: 'Dashboard',
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/pets',
     name: 'Pets',
     view: 'Pets',
