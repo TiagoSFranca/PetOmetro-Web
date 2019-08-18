@@ -6,9 +6,9 @@ import Meta from 'vue-meta'
 // Routes
 import paths from './paths'
 
-function route (path, view, name, meta, children) {
+function route(path, view, name, meta, children) {
   if (children) {
-    children = children.map(child => route(child.path, child.view, child.name, child.meta))
+    children = children.map(child => route(child.path, child.view, child.name, child.meta, null))
   }
   if (view) {
     view = view.replace('.', '/')
@@ -32,7 +32,7 @@ const router = new Router({
   routes: paths.map(path => route(path.path, path.view, path.name, path.meta, path.children)).concat([
     { path: '*', redirect: '/login' }
   ]),
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     }
@@ -43,7 +43,7 @@ const router = new Router({
   }
 })
 
-function nextFactory (context, middleware, index) {
+function nextFactory(context, middleware, index) {
   const subsequentMiddleware = middleware[index]
   if (!subsequentMiddleware) return context.next
 

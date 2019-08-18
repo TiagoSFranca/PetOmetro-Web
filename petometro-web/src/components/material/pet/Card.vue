@@ -3,15 +3,14 @@
     elevation="3"
     class="mx-auto">
     <v-list-item>
-      <v-list-item-avatar color="grey" />
       <v-list-item-content>
-        <v-list-item-title class="headline">Our Changing Planet</v-list-item-title>
-        <v-list-item-subtitle>by Kurt Wagner</v-list-item-subtitle>
+        <v-list-item-title class="headline">{{pet.Nome}}</v-list-item-title>
+        <v-list-item-subtitle>de {{pet.Usuario.Nome}}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
     <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      :src="pet.UrlImagem"
       height="200px"
     />
     <v-card-actions>
@@ -46,6 +45,7 @@
 
 <script>
 export default {
+  props: ['pet'],
   data: () => ({
     show: false
   })
