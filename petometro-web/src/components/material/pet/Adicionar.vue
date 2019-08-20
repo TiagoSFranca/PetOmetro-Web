@@ -73,6 +73,14 @@
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="12">
+                  <v-file-input
+                    accept="image/png, image/jpeg, image/bmp"
+                    prepend-icon="mdi-camera"
+                    label="Imagem"
+                    v-model="imagem"
+                  ></v-file-input>
+                </v-col>
+                <v-col cols="12">
                   <v-textarea
                     label="Comentário"
                     v-model="objeto.comentario"
@@ -106,6 +114,7 @@ export default {
   props: ["showAdicionar"],
   data() {
     return {
+      imagem: null,
       visible: false,
       valid: true,
       menu: false,
@@ -116,7 +125,8 @@ export default {
         raca: "",
         dtNascimento: "",
         idGeneroPet: 0,
-        comentario: ""
+        comentario: "",
+        imagem: ""
       },
       nomeRules: [rules.required("Nome"), rules.maxLength(64)],
       especieRacaRules: [rules.maxLength(64)],
@@ -135,10 +145,12 @@ export default {
     },
     Salvar() {
       if (this.$refs.form.validate()) {
-        PetService.Adicionar(this.objeto).then(res => {
+        this.objeto.imagem = this.imagem
+        PetService.Adicionar(this.objeto)
+        .then(res => {
           if (res) {
             this.hide();
-            this.$router.go()
+            this.$router.go();
           }
         });
       }

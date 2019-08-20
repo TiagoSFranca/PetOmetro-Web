@@ -20,8 +20,19 @@ export default {
       })
   },
   Adicionar(obj) {
+    let formData = new FormData();
+    for (var key in obj) {
+      console.log(key)
+      formData.append(key, obj[key]);
+    }
     progressBar.show(true)
-    return axios.post(RESOURCE_NAME, JSON.stringify(obj))
+    return axios.post(RESOURCE_NAME,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then(() => {
         progressBar.show(false)
         return true
