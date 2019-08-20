@@ -38,7 +38,7 @@ export default {
   created() {
     this.showProgress = true;
     this.source = axiosSourceToken.ObterToken();
-    PetsService.MeusPets(this.source).then(res => {
+    PetsService.MeusPets(this.source, true).then(res => {
       if (res.pagina) {
         this.items = res.itens;
         this.successSearch = true;

@@ -1,10 +1,11 @@
 import axios from 'axios'
 import progressBar from '@/utils/progressBar'
+import toastr from '@/utils/toastr'
 
 const RESOURCE_NAME = '/Pets'
 export default {
-  MeusPets(source) {
-    return this.Get('?meusPets=true', source)
+  MeusPets(source, dono) {
+    return this.Get('?meusPets=true&dono=' + dono, source)
   },
   Get(query, source) {
     return axios.get(RESOURCE_NAME + query, {
@@ -34,6 +35,19 @@ export default {
         }
       })
       .then(() => {
+        progressBar.show(false)
+        return true
+      }).catch(() => {
+        return false
+      }).finally(() => {
+        return true
+      })
+  },
+  Excluir(idPet) {
+    progressBar.show(true)
+    return axios.delete(RESOURCE_NAME + "/" + idPet)
+      .then(() => {
+        toastr.success('Operação realizada com sucesso!')
         progressBar.show(false)
         return true
       }).catch(() => {

@@ -18,6 +18,7 @@ export default {
         store.commit('auth/setIsAuth', true)
         store.commit('auth/setToken', data.token)
         store.commit('auth/setUserInfo', data)
+        console.log(store.state.auth.isAuth)
         progressBar.show(false)
       }).catch(() => {
       })

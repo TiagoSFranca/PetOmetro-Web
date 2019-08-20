@@ -1,6 +1,10 @@
 export default {
-  isAuth: true,
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjEiLCJMT0dJTiI6ImZyYXJzYSIsIk5PTUUiOiJzdHJpbmciLCJTT0JSRU5PTUUiOiJzdHJpbmciLCJuYmYiOjE1NjYwNTQ0ODYsImV4cCI6MTU5NzU5MDQ4NiwiaWF0IjoxNTY2MDU0NDg2fQ.WwG1S57g7MnbzROW_5cEv2voEQY83PmE3nEktpu43Jc',
+  isAuth: false,
+  token: '',
   userInfo: {
+    id: 1,
+    nome: "string",
+    sobrenome: "string",
+    token: "string"
   }
 }

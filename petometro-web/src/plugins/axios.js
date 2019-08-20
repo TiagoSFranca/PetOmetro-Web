@@ -7,15 +7,19 @@ import router from '@/router'
 
 axios.defaults.baseURL = 'http://localhost:56986/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+
 if (store.state.auth.isAuth) {
+  console.log(store.state.auth.token)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token
 }
+
 axios.interceptors.response.use((response) => {
   return response
 }, function (error) {
   if (axios.isCancel(error)) {
     console.log('cancelado')
   } else {
+    console.log(store)
     console.log(error)
     let errorMessage = ''
     if (error.response !== undefined) {
