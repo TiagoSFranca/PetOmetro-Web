@@ -16,8 +16,17 @@
         <v-list-item-subtitle>de {{pet.usuario.nome}}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-
-    <v-img :src="pet.urlImagem !== null ? pet.urlImagem : ''" height="200px" />
+    <v-img
+      :src="pet.urlImagem !== null ? pet.urlImagem : '/images/img_nf.png'"
+      height="200px"
+      contain
+    >
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
     <v-card-actions>
       <v-btn text>Share</v-btn>
 
