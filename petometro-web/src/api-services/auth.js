@@ -1,11 +1,12 @@
 import progressBar from '@/utils/progressBar'
 import store from '@/store'
 import axios from 'axios'
+import router from '@/router'
 
 const RESOURCE_NAME = '/Usuarios'
 
 export default {
-  Auth (username, password, keep) {
+  Auth(username, password, keep) {
     let obj = {
       Login: username,
       Senha: password,
@@ -15,11 +16,9 @@ export default {
     axios.post(RESOURCE_NAME + '/auth', JSON.stringify(obj))
       .then((response) => {
         var data = response.data
-        store.commit('auth/setIsAuth', true)
-        store.commit('auth/setToken', data.token)
-        store.commit('auth/setUserInfo', data)
-        console.log(store.state.auth.isAuth)
+        store.dispatch('auth/login', data);
         progressBar.show(false)
+        router.push({ path: '/dashboard' })
       }).catch(() => {
       })
   }

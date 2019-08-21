@@ -2,16 +2,25 @@ import store from '@/store'
 import Vue from 'vue'
 import toastr from '@/utils/toastr'
 import progressBar from '@/utils/progressBar'
+import auth from '@/utils/auth'
 import axios from 'axios'
 import router from '@/router'
 
 axios.defaults.baseURL = 'http://localhost:56986/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-if (store.state.auth.isAuth) {
-  console.log(store.state.auth.token)
-  axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token
-}
+axios.interceptors.request.use(
+  config => {
+    let isAuth = auth.isAuth()
+    if (isAuth) {
+      config.headers.authorization = `Bearer ${store.state.auth.token}`
+    } else {
+      config.headers.authorization = ''
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
 axios.interceptors.response.use((response) => {
   return response
