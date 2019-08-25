@@ -5,7 +5,9 @@ export default {
         if (token === null || token.length == 0) {
             token = tokenLocal
         }
-
         return tokenLocal
+    },
+    getRefreshToken: (state) =>{
+        return state.tokenInfo.refresh_token
     }
 }

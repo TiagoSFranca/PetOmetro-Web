@@ -4,5 +4,7 @@ export default {
   setIsAuth: set('isAuth'),
   setToken: set('token'),
   setUserInfo: set('userInfo'),
-  toggleIsAuth: toggle('isAuth')
+  toggleIsAuth: toggle('isAuth'),
+  setTokenInfo: set('tokenInfo'),
+  setIsRefreshing: set('isRefreshing'),
 }

@@ -23,7 +23,6 @@ export default {
   Adicionar(obj) {
     let formData = new FormData();
     for (var key in obj) {
-      console.log(key)
       formData.append(key, obj[key]);
     }
     progressBar.show(true)

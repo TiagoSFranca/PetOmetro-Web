@@ -30,7 +30,7 @@
                 prepend-icon="mdi-account"
                 name="login"
                 required
-                label="Usuário ou Email"
+                label="E-mail"
                 type="text"/>
               <v-text-field
                 id="password"
@@ -41,9 +41,6 @@
                 name="password"
                 label="Senha"
                 type="password"/>
-              <v-checkbox
-                v-model="keep"
-                label="Manter conectado"/>
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
@@ -66,15 +63,14 @@ export default {
     drawer: null,
     valid: true,
     login: '',
-    keep: false,
-    loginRules: [v => !!v || 'Usuário ou Email é obrigatório'],
+    loginRules: [v => !!v || 'E-mail é obrigatório'],
     password: '',
     passwordRules: [v => !!v || 'Senha é obrigatório']
   }),
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        AuthService.Auth(this.login, this.password, this.keep)
+        AuthService.Auth(this.login, this.password)
       }
     }
   }

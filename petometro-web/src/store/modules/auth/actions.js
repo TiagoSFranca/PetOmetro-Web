@@ -1,9 +1,9 @@
 export default {
     login({ commit }, data) {
         commit('setIsAuth', true)
-        commit('setToken', data.token)
-        commit('setUserInfo', data)
-        localStorage.setItem('token', data.token)
+        commit('setToken', data.access_token)
+        commit('setTokenInfo', data)
+        localStorage.setItem('token', data.access_token)
     },
     setToken({ commit }, token) {
         commit('setIsAuth', true)
@@ -14,5 +14,11 @@ export default {
         commit('setIsAuth', false)
         commit('setToken', '')
         localStorage.setItem('token', '')
+    },
+    refreshToken({ commit }, data) {
+        commit('setIsAuth', true)
+        commit('setToken', data.access_token)
+        commit('setTokenInfo', data)
+        localStorage.setItem('token', data.access_token)
     }
 }
