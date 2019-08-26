@@ -84,7 +84,7 @@
 
 <script>
 import { mapState } from "vuex";
-import SolicitacoesPetService from "@/api-services/solicitacoesPet";
+import SolicitacoesPetService from "@/services/solicitacoesPet";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import { situacaoSolicitacao } from "@/utils/enums";
 export default {

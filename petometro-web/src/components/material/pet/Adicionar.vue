@@ -104,8 +104,8 @@
 </template>
 
 <script>
-import GeneroPetService from "@/api-services/generoPet";
-import PetService from "@/api-services/pets";
+import GeneroPetService from "@/services/generoPet";
+import PetService from "@/services/pets";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import rules from "@/utils/rules";
 import { mapState } from "vuex";
@@ -150,7 +150,6 @@ export default {
         .then(res => {
           if (res) {
             this.hide();
-            this.$router.go();
           }
         });
       }

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import PetsService from "@/api-services/pets";
+import PetsService from "@/services/pets";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import { mapState } from "vuex";
 

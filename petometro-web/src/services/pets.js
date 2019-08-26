@@ -1,8 +1,10 @@
 import axios from 'axios'
 import progressBar from '@/utils/progressBar'
 import toastr from '@/utils/toastr'
+import store from '@/store'
 
 const RESOURCE_NAME = '/Pets'
+
 export default {
   MeusPets(source, dono) {
     return this.Get('?meusPets=true&dono=' + dono, source)
@@ -13,7 +15,9 @@ export default {
     })
       .then((response) => {
         var data = response.data
-        return data
+        store.dispatch('pet/adicionar', data);
+        store.commit('pet/setConsultar', false)
+        return true
       }).catch(() => {
         return false
       }).finally(() => {
@@ -35,6 +39,7 @@ export default {
       })
       .then(() => {
         progressBar.show(false)
+        store.commit('pet/setConsultar', true)
         return true
       }).catch(() => {
         return false
@@ -48,6 +53,7 @@ export default {
       .then(() => {
         toastr.success('Operação realizada com sucesso!')
         progressBar.show(false)
+        store.commit('pet/setConsultar', true)
         return true
       }).catch(() => {
         return false

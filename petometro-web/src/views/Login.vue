@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import AuthService from '@/api-services/auth'
+import AuthService from '@/services/auth'
 export default {
   data: () => ({
     drawer: null,

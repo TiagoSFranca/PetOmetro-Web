@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SolicitacoesPetService from "@/api-services/solicitacoesPet";
+import SolicitacoesPetService from "@/services/solicitacoesPet";
 
 export default {
   props: ["showAdicionar", "idPet", "idUsuario"],

@@ -15,12 +15,7 @@ axios.interceptors.response.use((response) => {
         let errorMessage = ''
         if (error.response !== undefined) {
             if (error.response.status !== 401) {
-                console.log('NÂO 401', error.response.data)
-                if (error.response.data.message) {
-                    errorMessage = error.response.data.message
-                } else if (error.response.data.error) {
-                    errorMessage = mensagens.autenticacaoNecessaria
-                }
+                errorMessage = mensagens.montarErroNao401(error);
             } else {
                 if (!store.state.auth.isRefreshing) {
                     store.commit('auth/setIsRefreshing', true)
@@ -51,7 +46,7 @@ axios.interceptors.response.use((response) => {
                 }
             }
         } else {
-            errorMessage = mensagens.erroDesconhecido
+            errorMessage = mensagens.erroConexao
         }
         toastr.error(errorMessage)
         progressBar.show(false)
