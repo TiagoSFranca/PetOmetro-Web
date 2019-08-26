@@ -6,7 +6,15 @@ export default [
   {
     path: '/login',
     view: 'Login',
-    name: ' ',
+    name: 'Login',
+    meta: {
+      middleware: guest
+    }
+  },
+  {
+    path: '/register',
+    view: 'Register',
+    name: 'Registrar',
     meta: {
       middleware: guest
     }

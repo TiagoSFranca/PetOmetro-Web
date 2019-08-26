@@ -13,7 +13,7 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title class="headline">{{pet.nome}}</v-list-item-title>
-        <v-list-item-subtitle>de {{pet.usuario.nome}}</v-list-item-subtitle>
+        <v-list-item-subtitle v-if="userInfo.id !== pet.idUsuario">de {{pet.usuario.nome}}</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-avatar color="blue lighten-5">
         <v-tooltip right>

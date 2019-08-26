@@ -21,8 +21,11 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block v-if="isAuth" dark @click="logout()">Sair</v-btn>
-        <v-btn block v-else dark>Entrar</v-btn>
+        <v-btn block v-if="isAuth" large outlined dark text color="amber darken-1" @click="logout()">Sair</v-btn>
+        <div v-else>
+          <v-btn color="teal lighten-1" block text dark to="/login">Entrar</v-btn>
+          <v-btn color="teal lighten-1" block text dark to="/register">Cadastre-se</v-btn>
+        </div>
       </div>
     </template>
   </v-navigation-drawer>
@@ -51,15 +54,15 @@ export default {
     ...mapState("auth", ["isAuth"])
   },
   methods: {
-    ...mapMutations('auth', ['setShowLogout']),
-    subIsActive(input) {
-      const paths = Array.isArray(input) ? input : [input];
-      return paths.some(path => {
-        return this.$route.path.indexOf(path) === 0; // current path starts with this path string
-      });
-    },
+    ...mapMutations("auth", ["setShowLogout"]),
+    // subIsActive(input) {
+    //   const paths = Array.isArray(input) ? input : [input];
+    //   return paths.some(path => {
+    //     return this.$route.path.indexOf(path) === 0; // current path starts with this path string
+    //   });
+    // },
     logout() {
-      this.setShowLogout(true)
+      this.setShowLogout(true);
     }
   }
 };
