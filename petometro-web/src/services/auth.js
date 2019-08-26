@@ -27,5 +27,9 @@ export default {
         router.push({ path: '/dashboard' })
       }).catch(() => {
       })
+  },
+  Logout() {
+    store.dispatch('auth/logout');
+    router.push({ path: '/login' })
   }
 }

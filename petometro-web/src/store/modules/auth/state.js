@@ -9,5 +9,6 @@ export default {
     nome: "string",
     sobrenome: "string",
     token: "string"
-  }
+  },
+  showLogout: false
 }

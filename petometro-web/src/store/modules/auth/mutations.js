@@ -7,4 +7,5 @@ export default {
   toggleIsAuth: toggle('isAuth'),
   setTokenInfo: set('tokenInfo'),
   setIsRefreshing: set('isRefreshing'),
+  setShowLogout: set('showLogout')
 }
