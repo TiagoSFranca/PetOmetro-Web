@@ -1,85 +1,91 @@
 <template>
-  <v-card elevation="3" class="mx-auto" dark color="blue lighten-1">
-    <v-list-item>
-      <v-list-item-avatar color="blue lighten-5">
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <v-icon v-if="pet.idGeneroPet == 1" color="orange" v-on="on">mdi-gender-male</v-icon>
-            <v-icon v-else-if="pet.idGeneroPet == 2" color="green" v-on="on">mdi-gender-female</v-icon>
-            <v-icon v-else color="indigo" v-on="on">mdi-gender-male-female</v-icon>
-          </template>
-          <span>{{pet.generoPet.nome}}</span>
-        </v-tooltip>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title class="headline">{{pet.nome}}</v-list-item-title>
-        <v-list-item-subtitle v-if="userInfo.id !== pet.idUsuario">de {{pet.usuario.nome}}</v-list-item-subtitle>
-      </v-list-item-content>
-      <v-list-item-avatar color="blue lighten-5">
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <v-icon :color="solicitacaoInfo.color" v-on="on">{{solicitacaoInfo.icon}}</v-icon>
-          </template>
-          <span>{{solicitacaoInfo.text}}</span>
-        </v-tooltip>
-      </v-list-item-avatar>
-    </v-list-item>
-    <v-img
-      :src="pet.urlImagem !== null ? pet.urlImagem : '/images/img_nf.png'"
-      height="200px"
-      contain
-    >
-      <template v-slot:placeholder>
-        <v-row class="fill-height ma-0" align="center" justify="center">
-          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-        </v-row>
-      </template>
-    </v-img>
-    <v-card-actions>
-      <v-btn icon v-if="userInfo.id === pet.idUsuario">
-        <v-icon color="red accent-4" @click="showExcluir = true">mdi-trash-can-outline</v-icon>
-      </v-btn>
-      <v-btn icon v-if="userInfo.id === pet.idUsuario">
-        <v-icon color="indigo darken-4">mdi-pencil-outline</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon color="indigo darken-4">mdi-eye-outline</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        v-if="userInfo.id !== pet.idUsuario && solicitacao.icon"
-        @click="AbrirModal(solicitacao.idModal)"
+  <v-hover v-slot:default="{ hover }">
+    <v-card :elevation="hover ? 12 : 3" class="mx-auto" dark color="blue lighten-1">
+      <v-list-item>
+        <v-list-item-avatar color="blue lighten-5">
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-icon v-if="pet.idGeneroPet == 1" color="orange" v-on="on">mdi-gender-male</v-icon>
+              <v-icon v-else-if="pet.idGeneroPet == 2" color="green" v-on="on">mdi-gender-female</v-icon>
+              <v-icon v-else color="indigo" v-on="on">mdi-gender-male-female</v-icon>
+            </template>
+            <span>{{pet.generoPet.nome}}</span>
+          </v-tooltip>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class="headline">{{pet.nome}}</v-list-item-title>
+          <v-list-item-subtitle v-if="userInfo.id !== pet.idUsuario">de {{pet.usuario.nome}}</v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-avatar color="blue lighten-5">
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-icon :color="solicitacaoInfo.color" v-on="on">{{solicitacaoInfo.icon}}</v-icon>
+            </template>
+            <span>{{solicitacaoInfo.text}}</span>
+          </v-tooltip>
+        </v-list-item-avatar>
+      </v-list-item>
+      <v-img
+        :src="pet.urlImagem !== null ? pet.urlImagem : '/images/img_nf.png'"
+        height="200px"
+        contain
       >
-        <v-icon :color="solicitacao.color">{{solicitacao.icon}}</v-icon>
-      </v-btn>
-
-      <v-spacer />
-
-      <v-btn icon @click="show = !show">
-        <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-      </v-btn>
-    </v-card-actions>
-
-    <v-expand-transition>
-      <div v-show="show">
-        <v-card-text>
-          <v-row>Espécie: {{pet.especie}}</v-row>
-          <v-row>Raça: {{pet.raca}}</v-row>
-          <v-row>Nascimento: {{new Date(pet.dtNascimento).toISOString().substr(0, 10)}}</v-row>
-          <v-row>
-            <v-col cols="12">{{pet.comentario}}</v-col>
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
           </v-row>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
-    <material-solicitacao-pet-adicionar
-      :showAdicionar="showAdicionar"
-      :idPet="pet.id"
-      :idUsuario="pet.idUsuario"
-      @fechar="showAdicionar = false"
-    />
-    <material-pet-excluir :showExcluir="showExcluir" :idPet="pet.id" @fechar="showExcluir = false" />
-  </v-card>
+        </template>
+      </v-img>
+      <v-card-actions>
+        <v-btn icon v-if="userInfo.id === pet.idUsuario">
+          <v-icon color="red accent-4" @click="showExcluir = true">mdi-trash-can-outline</v-icon>
+        </v-btn>
+        <v-btn icon v-if="userInfo.id === pet.idUsuario">
+          <v-icon color="indigo darken-4">mdi-pencil-outline</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon color="indigo darken-4">mdi-eye-outline</v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          v-if="userInfo.id !== pet.idUsuario && solicitacao.icon"
+          @click="AbrirModal(solicitacao.idModal)"
+        >
+          <v-icon :color="solicitacao.color">{{solicitacao.icon}}</v-icon>
+        </v-btn>
+
+        <v-spacer />
+
+        <v-btn icon @click="show = !show">
+          <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+        </v-btn>
+      </v-card-actions>
+
+      <v-expand-transition>
+        <div v-show="show">
+          <v-card-text>
+            <v-row>Espécie: {{pet.especie}}</v-row>
+            <v-row>Raça: {{pet.raca}}</v-row>
+            <v-row>Nascimento: {{new Date(pet.dtNascimento).toISOString().substr(0, 10)}}</v-row>
+            <v-row>
+              <v-col cols="12">{{pet.comentario}}</v-col>
+            </v-row>
+          </v-card-text>
+        </div>
+      </v-expand-transition>
+      <material-solicitacao-pet-adicionar
+        :showAdicionar="showAdicionar"
+        :idPet="pet.id"
+        :idUsuario="pet.idUsuario"
+        @fechar="showAdicionar = false"
+      />
+      <material-pet-excluir
+        :showExcluir="showExcluir"
+        :idPet="pet.id"
+        @fechar="showExcluir = false"
+      />
+    </v-card>
+  </v-hover>
 </template>
 
 <script>

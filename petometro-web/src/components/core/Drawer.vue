@@ -1,12 +1,20 @@
 <template>
   <v-navigation-drawer
-    clipped
     floating
     permanent
     app
     overflow
     src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
   >
+    <v-list-item dark>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          PetÔmetro
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-divider></v-divider>
     <v-list>
       <v-list-item v-for="item in links" :key="item.text" :to="item.to" color="white" link>
         <v-list-item-icon>
@@ -21,7 +29,16 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block v-if="isAuth" large outlined dark text color="amber darken-1" @click="logout()">Sair</v-btn>
+        <v-btn
+          block
+          v-if="isAuth"
+          large
+          outlined
+          dark
+          text
+          color="amber darken-1"
+          @click="logout()"
+        >Sair</v-btn>
         <div v-else>
           <v-btn color="teal lighten-1" block text dark to="/login">Entrar</v-btn>
           <v-btn color="teal lighten-1" block text dark to="/register">Cadastre-se</v-btn>
@@ -55,12 +72,6 @@ export default {
   },
   methods: {
     ...mapMutations("auth", ["setShowLogout"]),
-    // subIsActive(input) {
-    //   const paths = Array.isArray(input) ? input : [input];
-    //   return paths.some(path => {
-    //     return this.$route.path.indexOf(path) === 0; // current path starts with this path string
-    //   });
-    // },
     logout() {
       this.setShowLogout(true);
     }
