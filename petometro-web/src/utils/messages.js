@@ -13,8 +13,8 @@ export default {
             if (description === 'invalid_username_or_password')
                 errorMessage = this.emailSenhaIncorretos
         } else if (error.response.data.error) {
-            let error = error.response.data.error
-            if (error === 'invalid_grant')
+            let dataError = error.response.data.error
+            if (dataError === 'invalid_grant')
                 errorMessage = this.autenticacaoNecessaria
         } else {
             errorMessage = this.erroDesconhecido
