@@ -5,10 +5,6 @@
     <core-drawer />
 
     <core-view />
-
-    <core-toastr />
-    <core-progress-bar />
-    <core-logout />
   </v-app>
 </template>
 

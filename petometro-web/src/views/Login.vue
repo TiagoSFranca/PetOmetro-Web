@@ -3,10 +3,13 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <v-card class="elevation-12" light>
-          <v-toolbar dark flat color="primary">
-            <v-toolbar-title>Entrar</v-toolbar-title>
+          <v-toolbar dark flat color="blue lighten-1">
+            <v-toolbar-title class="white--text">Entrar</v-toolbar-title>
           </v-toolbar>
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="submit">
+            <v-card-title
+              class="fill-height overline blue-grey--text"
+            >Insira seus dados para autenticar.</v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="login"

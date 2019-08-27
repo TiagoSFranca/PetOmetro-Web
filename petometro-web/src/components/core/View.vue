@@ -1,7 +1,9 @@
 <template>
   <v-content>
-      <v-layout>
-        <router-view />
-      </v-layout>
+    <router-view />
+
+    <core-toastr />
+    <core-progress-bar />
+    <core-logout />
   </v-content>
 </template>

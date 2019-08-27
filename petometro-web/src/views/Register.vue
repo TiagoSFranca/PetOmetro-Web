@@ -1,12 +1,15 @@
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md8>
+      <v-flex xs12 sm12 md8>
         <v-card class="elevation-12" light>
-          <v-toolbar dark flat color="primary">
-            <v-toolbar-title>Cadastre-se</v-toolbar-title>
+          <v-toolbar dark flat color="blue lighten-1">
+            <v-toolbar-title class="white--text">Cadastre-se</v-toolbar-title>
           </v-toolbar>
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="submit">
+            <v-card-title
+              class="fill-height overline blue-grey--text"
+            >Preencha os campos abaixo para realizar o cadastro.</v-card-title>
             <v-card-text>
               <v-row>
                 <v-col cols="12">
