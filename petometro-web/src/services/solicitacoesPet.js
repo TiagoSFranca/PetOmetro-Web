@@ -32,6 +32,7 @@ export default {
             .then(() => {
                 toastr.success('Operação realizada com sucesso!')
                 progressBar.show(false)
+                store.commit('pet/setConsultar', true)
                 return true
             }).catch(() => {
                 return false

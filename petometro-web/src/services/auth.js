@@ -23,13 +23,56 @@ export default {
       .then((response) => {
         var data = response.data
         store.dispatch('auth/login', data);
+
+        this.GetUserInfo()
+
         progressBar.show(false)
         router.push({ path: '/dashboard' })
+      }).catch(() => {
+      })
+  },
+  GetUserInfo() {
+    axios.get(baseUrlAuth + '/userinfo')
+      .then((response) => {
+        var data = response.data
+        store.dispatch('auth/setUserInfo', data);
       }).catch(() => {
       })
   },
   Logout() {
     store.dispatch('auth/logout');
     router.push({ path: '/login' })
+  },
+  RefreshToken() {
+    if (!store.state.auth.isRefreshing) {
+      store.commit('auth/setIsRefreshing', true)
+
+      let formData = new FormData();
+      formData.append('client_id', clientId);
+      formData.append('grant_type', 'refresh_token')
+      formData.append('refresh_token', store.getters['auth/getRefreshToken'])
+
+      return axios.post(baseUrlAuth + '/token',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          var data = response.data
+          store.dispatch('auth/refreshToken', data)
+
+          this.GetUserInfo()
+
+          return axios(error.response.config);
+        }).catch(error => {
+          store.dispatch('auth/logout')
+          router.push({ path: '/login' })
+          store.commit('auth/setIsRefreshing', false)
+          return Promise.reject(error);
+        }).finally(() => {
+          store.commit('auth/setIsRefreshing', false)
+        });
+    }
   }
 }

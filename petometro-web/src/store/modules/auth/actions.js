@@ -20,5 +20,9 @@ export default {
         commit('setToken', data.access_token)
         commit('setTokenInfo', data)
         localStorage.setItem('token', data.access_token)
+    },
+    setUserInfo({ commit }, data) {
+        data.id = parseInt(data.sub)
+        commit('setUserInfo', data)
     }
 }
