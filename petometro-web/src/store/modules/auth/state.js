@@ -5,10 +5,7 @@ export default {
   tokenInfo: {
   },
   userInfo: {
-    id: 1,
-    nome: "string",
-    sobrenome: "string",
-    token: "string"
   },
-  showLogout: false
+  showLogout: false,
+  searchUserInfo: true
 }

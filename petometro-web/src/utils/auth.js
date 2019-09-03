@@ -1,4 +1,5 @@
 import store from '@/store'
+
 export default {
     isAuth() {
         let token = store.getters['auth/getToken']

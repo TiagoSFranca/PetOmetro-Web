@@ -1,6 +1,6 @@
 export default {
     required(input) {
-        return v => !!(v).trim() || input + " é obrigatório"
+        return v => !!v || input + " é obrigatório"
     },
     maxLength(max) {
         return v => (v ? v : '').trim().length <= max || `Máximo ${max} caracteres`

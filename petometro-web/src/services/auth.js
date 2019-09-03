@@ -32,12 +32,15 @@ export default {
       })
   },
   GetUserInfo() {
-    axios.get(baseUrlAuth + '/userinfo')
-      .then((response) => {
-        var data = response.data
-        store.dispatch('auth/setUserInfo', data);
-      }).catch(() => {
-      })
+    if (store.state.auth.searchUserInfo) {
+      store.commit('auth/setSearchUserInfo', false)
+      axios.get(baseUrlAuth + '/userinfo')
+        .then((response) => {
+          var data = response.data
+          store.dispatch('auth/setUserInfo', data);
+        }).catch(() => {
+        })
+    }
   },
   Logout() {
     store.dispatch('auth/logout');

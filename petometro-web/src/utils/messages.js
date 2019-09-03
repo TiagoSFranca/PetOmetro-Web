@@ -4,7 +4,7 @@ export default {
     emailSenhaIncorretos: 'E-mail ou Senha incorretos',
     erroDesconhecido: 'Ocorreu um erro desconhecido',
     montarErroNao401(error) {
-        console.log('NÂO 401', error.response.data)
+        console.log('NÃO 401', error.response.data)
         let errorMessage = ''
         if (error.response.data.message) {
             errorMessage = error.response.data.message
