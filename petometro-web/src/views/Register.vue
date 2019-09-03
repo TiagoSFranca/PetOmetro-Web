@@ -89,8 +89,9 @@
 </template>
 
 <script>
-import AccountService from "@/services/account";
+import accountService from "@/services/account";
 import rules from "@/utils/rules";
+
 export default {
   data: () => ({
     showSenha: false,
@@ -113,7 +114,7 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        AccountService.Register(
+        accountService.register(
           this.nome,
           this.email,
           this.password,

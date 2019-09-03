@@ -14,7 +14,7 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="headline">{{pet.nome}}</v-list-item-title>
-          <v-list-item-subtitle v-if="userInfo.id !== pet.idUsuario">de {{pet.usuario.nome}}</v-list-item-subtitle>
+          <v-list-item-subtitle>de {{pet.usuario.nome}}</v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-avatar color="blue lighten-5">
           <v-tooltip right>
@@ -38,10 +38,10 @@
       </v-img>
       <v-card-actions>
         <v-btn icon v-if="userInfo.id === pet.idUsuario">
-          <v-icon color="red accent-4" @click="showExcluir = true">mdi-trash-can-outline</v-icon>
+          <v-icon color="red accent-4" @click="showExcluir()">mdi-trash-can-outline</v-icon>
         </v-btn>
         <v-btn icon v-if="userInfo.id === pet.idUsuario">
-          <v-icon color="indigo darken-4">mdi-pencil-outline</v-icon>
+          <v-icon color="indigo darken-4" @click="showEditar()">mdi-pencil-outline</v-icon>
         </v-btn>
         <v-btn icon>
           <v-icon color="indigo darken-4">mdi-eye-outline</v-icon>
@@ -49,7 +49,7 @@
         <v-btn
           icon
           v-if="userInfo.id !== pet.idUsuario && solicitacao.icon"
-          @click="AbrirModal(solicitacao.idModal)"
+          @click="abrirModal(solicitacao.idModal)"
         >
           <v-icon :color="solicitacao.color">{{solicitacao.icon}}</v-icon>
         </v-btn>
@@ -66,7 +66,7 @@
           <v-card-text>
             <v-row>Espécie: {{pet.especie}}</v-row>
             <v-row>Raça: {{pet.raca}}</v-row>
-            <v-row>Nascimento: {{new Date(pet.dtNascimento).toISOString().substr(0, 10)}}</v-row>
+            <v-row>Nascimento: {{pet.dtNascimento}}</v-row>
             <v-row>
               <v-col cols="12">{{pet.comentario}}</v-col>
             </v-row>
@@ -79,20 +79,17 @@
         :idUsuario="pet.idUsuario"
         @fechar="showAdicionar = false"
       />
-      <material-pet-excluir
-        :showExcluir="showExcluir"
-        :idPet="pet.id"
-        @fechar="showExcluir = false"
-      />
     </v-card>
   </v-hover>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import SolicitacoesPetService from "@/services/solicitacoesPet";
+import solicitacoesPetService from "@/services/solicitacoesPet";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import { situacaoSolicitacao } from "@/utils/enums";
+import cloneDeep from 'lodash/cloneDeep'
+
 export default {
   props: ["pet"],
   data: () => ({
@@ -101,20 +98,28 @@ export default {
     solicitacao: {},
     solicitacaoInfo: {},
     showAdicionar: false,
-    showExcluir: false
   }),
   computed: {
     ...mapState("auth", ["userInfo"])
   },
   created() {
-    this.VerificarSolicitacoes();
+    this.verificarSolicitacoes();
   },
   methods: {
-    AbrirModal(idModal) {
+    showExcluir (event) {
+      let id = this.pet.id
+      this.$emit('showModalExcluir', id)
+    },
+    showEditar (event) {
+      let pet = cloneDeep(this.pet)
+      this.$emit('showModalEditar', pet)
+    },
+
+    abrirModal(idModal) {
       //Adicionar
       if (idModal == 1) this.showAdicionar = true;
     },
-    MontarSolicitacaoInfo(solicitacoes) {
+    montarSolicitacaoInfo(solicitacoes) {
       let aceitas = solicitacoes.filter(
         e => e.idSituacaoSolicitacao === situacaoSolicitacao.Aceita
       );
@@ -156,13 +161,13 @@ export default {
         }
       }
     },
-    VerificarSolicitacoes() {
+    verificarSolicitacoes() {
       if (this.pet.idUsuario !== this.userInfo.id) {
-        this.source = axiosSourceToken.ObterToken();
-        SolicitacoesPetService.GetBySolicitante(this.source, this.pet.id).then(
+        this.source = axiosSourceToken.obterToken();
+        solicitacoesPetService.getBySolicitante(this.source, this.pet.id).then(
           res => {
             if (res.pagina) {
-              this.MontarSolicitacaoInfo(res.itens);
+              this.montarSolicitacaoInfo(res.itens);
             }
           }
         );

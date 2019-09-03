@@ -5,7 +5,7 @@ import router from '@/router'
 import { baseUrlAuth, clientId } from "@/utils/constants"
 
 export default {
-  Auth(username, password) {
+  auth(username, password) {
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -24,14 +24,14 @@ export default {
         var data = response.data
         store.dispatch('auth/login', data);
 
-        this.GetUserInfo()
+        this.getUserInfo()
 
         progressBar.show(false)
         router.push({ path: '/dashboard' })
       }).catch(() => {
       })
   },
-  GetUserInfo() {
+  getUserInfo() {
     if (store.state.auth.searchUserInfo) {
       store.commit('auth/setSearchUserInfo', false)
       axios.get(baseUrlAuth + '/userinfo')
@@ -42,11 +42,11 @@ export default {
         })
     }
   },
-  Logout() {
+  logout() {
     store.dispatch('auth/logout');
     router.push({ path: '/login' })
   },
-  RefreshToken() {
+  refreshToken() {
     if (!store.state.auth.isRefreshing) {
       store.commit('auth/setIsRefreshing', true)
 
@@ -65,7 +65,7 @@ export default {
           var data = response.data
           store.dispatch('auth/refreshToken', data)
 
-          this.GetUserInfo()
+          this.getUserInfo()
 
           return axios(error.response.config);
         }).catch(error => {

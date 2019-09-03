@@ -6,10 +6,10 @@ import store from '@/store'
 const RESOURCE_NAME = '/Pets'
 
 export default {
-  MeusPets(source, dono) {
-    return this.Get('?meusPets=true&dono=' + dono, source)
+  meusPets(source, dono) {
+    return this.get('?meusPets=true&dono=' + dono, source)
   },
-  Get(query, source) {
+  get(query, source) {
     return axios.get(RESOURCE_NAME + query, {
       cancelToken: source.token
     })
@@ -24,7 +24,7 @@ export default {
         return true;
       })
   },
-  Adicionar(obj) {
+  adicionar(obj) {
     let formData = new FormData();
     for (var key in obj) {
       formData.append(key, obj[key]);
@@ -47,7 +47,31 @@ export default {
         return true
       })
   },
-  Excluir(idPet) {
+  editar(obj) {
+    return true
+    // let formData = new FormData();
+    // for (var key in obj) {
+    //   formData.append(key, obj[key]);
+    // }
+    // progressBar.show(true)
+    // return axios.put(RESOURCE_NAME + '/' + obj.id,
+    //   formData,
+    //   {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data'
+    //     }
+    //   })
+    //   .then(() => {
+    //     progressBar.show(false)
+    //     store.commit('pet/setConsultar', true)
+    //     return true
+    //   }).catch(() => {
+    //     return false
+    //   }).finally(() => {
+    //     return true
+    //   })
+  },
+  excluir(idPet) {
     progressBar.show(true)
     return axios.delete(RESOURCE_NAME + "/" + idPet)
       .then(() => {

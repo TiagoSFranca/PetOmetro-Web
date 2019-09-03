@@ -1,4 +1,4 @@
-import AuthService from '@/services/auth'
+import authService from '@/services/auth'
 
 export default {
     login({ commit }, data) {
@@ -11,7 +11,7 @@ export default {
         commit('setIsAuth', true)
         commit('setToken', token)
         localStorage.setItem('token', token)
-        AuthService.GetUserInfo()
+        authService.getUserInfo()
     },
     logout({ commit }) {
         commit('setIsAuth', false)

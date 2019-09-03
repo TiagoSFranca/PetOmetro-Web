@@ -3,7 +3,7 @@ import store from '@/store'
 
 const RESOURCE_NAME = '/GenerosPet'
 export default {
-  Get(source) {
+  get(source) {
     axios.get(RESOURCE_NAME, {
       cancelToken: source.token
     })

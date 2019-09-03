@@ -3,7 +3,7 @@
     <v-dialog v-model="visible" scrollable persistent max-width="800px">
       <v-card>
         <v-card-title>
-          <span class="headline">Adicionar Pet</span>
+          <span class="headline">Editar Pet</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -13,7 +13,7 @@
                   <v-text-field
                     label="Nome"
                     required
-                    v-model="objeto.nome"
+                    v-model="pet.nome"
                     :rules="nomeRules"
                     counter="64"
                   ></v-text-field>
@@ -21,7 +21,7 @@
                 <v-col cols="4">
                   <v-text-field
                     label="Espécie"
-                    v-model="objeto.especie"
+                    v-model="pet.especie"
                     :rules="especieRacaRules"
                     counter="64"
                   ></v-text-field>
@@ -30,7 +30,7 @@
                   <v-text-field
                     label="Raça"
                     required
-                    v-model="objeto.raca"
+                    v-model="pet.raca"
                     :rules="especieRacaRules"
                     counter="64"
                   ></v-text-field>
@@ -40,7 +40,7 @@
                     ref="menu"
                     v-model="menu"
                     :close-on-content-click="false"
-                    :return-value.sync="objeto.dtNascimento"
+                    :return-value.sync="pet.dtNascimento"
                     transition="scale-transition"
                     offset-y
                     full-width
@@ -48,17 +48,17 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="objeto.dtNascimento"
+                        v-model="pet.dtNascimento"
                         label="Nascimento"
                         prepend-icon="event"
                         readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
-                    <v-date-picker v-model="objeto.dtNascimento" no-title scrollable>
+                    <v-date-picker v-model="pet.dtNascimento" no-title scrollable>
                       <v-spacer></v-spacer>
                       <v-btn text color="primary" @click="menu = false">Cancelar</v-btn>
-                      <v-btn text color="primary" @click="$refs.menu.save(objeto.dtNascimento)">OK</v-btn>
+                      <v-btn text color="primary" @click="$refs.menu.save(pet.dtNascimento)">OK</v-btn>
                     </v-date-picker>
                   </v-menu>
                 </v-col>
@@ -68,7 +68,7 @@
                     item-text="nome"
                     item-value="id"
                     label="Gênero"
-                    v-model="objeto.idGeneroPet"
+                    v-model="pet.idGeneroPet"
                     :rules="generoRules"
                   ></v-autocomplete>
                 </v-col>
@@ -83,7 +83,7 @@
                 <v-col cols="12">
                   <v-textarea
                     label="Comentário"
-                    v-model="objeto.comentario"
+                    v-model="pet.comentario"
                     :rules="especieRacaRules"
                     counter="512"
                   ></v-textarea>
@@ -111,7 +111,7 @@ import rules from "@/utils/rules";
 import { mapState } from "vuex";
 
 export default {
-  props: ["showAdicionar"],
+  props: ["showEditar", "pet"],
   data() {
     return {
       imagem: null,
@@ -119,15 +119,6 @@ export default {
       valid: true,
       menu: false,
       source: "",
-      objeto: {
-        nome: "",
-        especie: "",
-        raca: "",
-        dtNascimento: "",
-        idGeneroPet: 0,
-        comentario: "",
-        imagem: ""
-      },
       nomeRules: [rules.required("Nome"), rules.maxLength(64)],
       especieRacaRules: [rules.maxLength(64)],
       comentarioRules: [rules.maxLength(512)],
@@ -145,13 +136,13 @@ export default {
     },
     salvar() {
       if (this.$refs.form.validate()) {
-        this.objeto.imagem = this.imagem
-        petService.adicionar(this.objeto)
-        .then(res => {
-          if (res) {
+        // this.pet.imagem = this.imagem
+        // petService.Editar(this.pet)
+        // .then(res => {
+        //   if (res) {
             this.hide();
-          }
-        });
+        //   }
+        // });
       }
     }
   },
@@ -163,9 +154,9 @@ export default {
     ...mapState("generoPet", ["generos"])
   },
   watch: {
-    showAdicionar() {
-      if (this.showAdicionar && !this.visible) this.show();
-      else if (!this.showAdicionar && this.visible) this.hide();
+    showEditar() {
+      if (this.showEditar && !this.visible) this.show();
+      else if (!this.showEditar && this.visible) this.hide();
     }
   },
   beforeRouteLeave(to, from, next) {

@@ -2,7 +2,7 @@ import axios from 'axios'
 import toastr from '@/utils/toastr'
 import progressBar from '@/utils/progressBar'
 import mensagens from '@/utils/messages'
-import AuthService from '@/services/auth'
+import authService from '@/services/auth'
 
 axios.interceptors.response.use((response) => {
     return response
@@ -15,7 +15,7 @@ axios.interceptors.response.use((response) => {
             if (error.response.status !== 401) {
                 errorMessage = mensagens.montarErroNao401(error);
             } else {
-                return AuthService.RefreshToken()
+                return authService.refreshToken()
             }
         } else {
             errorMessage = mensagens.erroConexao

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export default {
-    ObterToken () {
+    obterToken() {
         let CancelToken = axios.CancelToken;
-        return CancelToken.source();        
+        return CancelToken.source();
     }
 }

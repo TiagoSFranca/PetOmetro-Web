@@ -9,7 +9,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="accent" text @click="hide()">Cancelar</v-btn>
-          <v-btn color="primary" text submit @click="Salvar()">Enviar</v-btn>
+          <v-btn color="primary" text submit @click="salvar()">Enviar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SolicitacoesPetService from "@/services/solicitacoesPet";
+import solicitacoesPetService from "@/services/solicitacoesPet";
 
 export default {
   props: ["showAdicionar", "idPet", "idUsuario"],
@@ -37,8 +37,8 @@ export default {
     show() {
       this.visible = true;
     },
-    Salvar() {
-      SolicitacoesPetService.Adicionar(this.idUsuario, this.idPet).then(res => {
+    salvar() {
+      solicitacoesPetService.adicionar(this.idUsuario, this.idPet).then(res => {
         if (res) this.hide();
       });
     }

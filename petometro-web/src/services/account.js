@@ -6,7 +6,7 @@ import toastr from '@/utils/toastr'
 const RESOURCE_NAME = '/Account'
 
 export default {
-    Register(nome, email, senha, username) {
+    register(nome, email, senha, username) {
         let obj = {
             nome: nome,
             senha: senha,

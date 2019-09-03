@@ -24,9 +24,10 @@
 </template>
 
 <script>
-import PetsService from "@/services/pets";
+import petsService from "@/services/pets";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -36,10 +37,10 @@ export default {
     };
   },
   methods: {
-    Consultar() {
+    consultarPets() {
       this.showProgress = true;
-      this.source = axiosSourceToken.ObterToken();
-      PetsService.Get("", this.source).then(res => {
+      this.source = axiosSourceToken.obterToken();
+      petsService.get("", this.source).then(res => {
         if (res) {
           this.successSearch = true;
         } else {
@@ -50,7 +51,7 @@ export default {
     }
   },
   created() {
-    this.Consultar();
+    this.consultarPets();
   },
   computed: {
     ...mapState("pet", ["pets", "consultar"])
@@ -61,7 +62,7 @@ export default {
   },
   watch: {
     consultar() {
-      this.Consultar();
+      this.consultarPets();
     }
   }
 };

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/auth";
+import authService from "@/services/auth";
 import { mapState, mapMutations } from "vuex";
 export default {
   computed: {
@@ -27,7 +27,7 @@ export default {
     ...mapMutations("auth", ["setShowLogout"]),
     logout() {
       this.setShowLogout(false);
-      AuthService.Logout();
+      authService.logout();
     },
     closeModal() {
       this.setShowLogout(false);

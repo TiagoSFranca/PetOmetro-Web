@@ -45,8 +45,9 @@
 </template>
 
 <script>
-import AuthService from "@/services/auth";
+import authService from "@/services/auth";
 import rules from "@/utils/rules";
+
 export default {
   data: () => ({
     showSenha: false,
@@ -59,7 +60,7 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        AuthService.Auth(this.login, this.password);
+        authService.auth(this.login, this.password);
       }
     }
   }

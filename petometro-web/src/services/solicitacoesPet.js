@@ -5,11 +5,11 @@ import toastr from '@/utils/toastr'
 
 const RESOURCE_NAME = '/SolicitacoesPet'
 export default {
-    GetBySolicitante(source, pet) {
+    getBySolicitante(source, pet) {
         var idSolicitante = store.state.auth.userInfo.id
-        return this.Get(`?idSolicitantes=${idSolicitante}&idPets=${pet}`, source)
+        return this.get(`?idSolicitantes=${idSolicitante}&idPets=${pet}`, source)
     },
-    Get(query, source) {
+    get(query, source) {
         return axios.get(RESOURCE_NAME + query, {
             cancelToken: source.token
         })
@@ -22,7 +22,7 @@ export default {
                 return true;
             })
     },
-    Adicionar(idUsuario, idPet) {
+    adicionar(idUsuario, idPet) {
         let obj = {
             IdUsuarioSolicitado: idUsuario,
             IdPet: idPet
