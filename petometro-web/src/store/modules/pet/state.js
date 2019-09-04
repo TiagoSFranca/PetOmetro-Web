@@ -1,5 +1,6 @@
 export default {
     pets: {},
-    consultar: false
+    consultar: false,
+    showFiltro: false
   }
   

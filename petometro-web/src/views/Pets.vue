@@ -7,6 +7,10 @@
 
           <v-spacer></v-spacer>
 
+          <v-btn fab dark text @click="showFiltro()">
+            <v-icon>sort</v-icon>
+          </v-btn>
+
           <v-btn fab dark text @click="showAdicionar = true">
             <v-icon>add</v-icon>
           </v-btn>
@@ -34,6 +38,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
@@ -58,26 +64,30 @@ export default {
           key: "pets-associados",
           icon: "mdi-heart-multiple",
           color: "red darken-5"
-        },
-        {
-          to: "/pets/solicitacoes-enviadas",
-          text: "Solicitações Enviadas",
-          key: "solicitacoes-enviadas",
-          icon: "mdi-heart-half",
-          color: "green darken-5"
-        },
-        {
-          to: "/pets/solicitacoes-recebidas",
-          text: "Solicitações Recebidas",
-          key: "solicitacoes-recebidas",
-          icon: "mdi-heart-half-full",
-          color: "green darken-5"
         }
+        // {
+        //   to: "/pets/solicitacoes-enviadas",
+        //   text: "Solicitações Enviadas",
+        //   key: "solicitacoes-enviadas",
+        //   icon: "mdi-heart-half",
+        //   color: "green darken-5"
+        // },
+        // {
+        //   to: "/pets/solicitacoes-recebidas",
+        //   text: "Solicitações Recebidas",
+        //   key: "solicitacoes-recebidas",
+        //   icon: "mdi-heart-half-full",
+        //   color: "green darken-5"
+        // }
       ],
       showAdicionar: false
     };
   },
   methods: {
+    ...mapMutations('pet', ['toggleShowFiltro']),
+    showFiltro () {
+      this.toggleShowFiltro()
+    }
   }
 };
 </script>

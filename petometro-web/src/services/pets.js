@@ -6,11 +6,38 @@ import messages from '@/utils/messages'
 
 const RESOURCE_NAME = '/Pets'
 
+function montarQueryFiltro(filtro) {
+
+  let query = ''
+  if (filtro) {
+    if (filtro.nome)
+      query += '&nome=' + filtro.nome
+    if (filtro.especie)
+      query += '&especie=' + filtro.especie
+    if (filtro.raca)
+      query += '&raca=' + filtro.raca
+    if (filtro.idsGeneroPet)
+      filtro.idsGeneroPet.forEach((element) => {
+        query += '&idGeneros=' + element
+      })
+
+  }
+
+  return query
+}
+
 export default {
-  meusPets(source, dono) {
-    return this.get('?meusPets=true&dono=' + dono, source)
+
+  meusPets(source, dono, filtro) {
+    return this.get(`?meusPets=true&dono=${dono}`, source, filtro)
   },
-  get(query, source) {
+  get(query, source, filtro) {
+    let queryFiltro = montarQueryFiltro(filtro)
+    
+    if (!query.startsWith('?'))
+      query = '?' + query
+    query += queryFiltro
+
     return axios.get(RESOURCE_NAME + query, {
       cancelToken: source.token
     })

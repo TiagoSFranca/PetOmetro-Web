@@ -1,23 +1,17 @@
 <template>
   <div fill-height fluid grid-list-sm>
     <v-spacer />
-    <v-layout wrap>
-      <v-flex
-        v-if="successSearch && pets.itens.length > 0"
-        v-for="n in pets.itens"
-        :key="n.Id"
-        lg4
-        md6
-        xs12
-        sm12
-      >
+    <v-layout wrap v-if="successSearch && pets.itens.length > 0">
+      <v-flex v-for="n in pets.itens" :key="n.Id" lg4 md6 xs12 sm12>
         <material-pet-card
           :pet="n"
           @showModalExcluir="onShowModalExcluir"
           @showModalEditar="onShowModalEditar"
         />
       </v-flex>
-      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.itens.length === 0">
+    </v-layout>
+    <v-layout v-else>
+      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.itens.length === 0 && !showProgress">
         <v-alert prominent type="info" class="mb-4">Você ainda não possui pets</v-alert>
       </v-flex>
       <v-flex lg12 md12 xs12 sm12 v-if="showProgress">
@@ -30,6 +24,7 @@
       @fechar="showExcluir = false"
     />
     <material-pet-editar :pet="pet" :showEditar="showEditar" @fechar="showEditar = false" />
+    <material-pet-filtro @filtrar="onFiltrar" />
   </div>
 </template>
 
@@ -47,7 +42,8 @@ export default {
       showExcluir: false,
       showEditar: false,
       idPetSelecionado: 0,
-      pet: {}
+      pet: {},
+      filtro: {}
     };
   },
   computed: {
@@ -57,7 +53,7 @@ export default {
     consultarMeusPets() {
       this.showProgress = true;
       this.source = axiosSourceToken.obterToken();
-      petsService.meusPets(this.source, true).then(res => {
+      petsService.meusPets(this.source, true, this.filtro).then(res => {
         if (res) {
           this.successSearch = true;
         } else {
@@ -73,6 +69,10 @@ export default {
     onShowModalEditar(pet) {
       this.pet = pet;
       this.showEditar = true;
+    },
+    onFiltrar(filtro) {
+      this.filtro = filtro;
+      this.consultarMeusPets();
     }
   },
   created() {
