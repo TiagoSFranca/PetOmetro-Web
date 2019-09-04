@@ -2,6 +2,7 @@ import axios from 'axios'
 import progressBar from '@/utils/progressBar'
 import toastr from '@/utils/toastr'
 import store from '@/store'
+import messages from '@/utils/messages'
 
 const RESOURCE_NAME = '/Pets'
 
@@ -38,6 +39,7 @@ export default {
         }
       })
       .then(() => {
+        toastr.success(messages.sucesso.cadastro)
         progressBar.show(false)
         store.commit('pet/setConsultar', true)
         return true
@@ -48,34 +50,34 @@ export default {
       })
   },
   editar(obj) {
-    return true
-    // let formData = new FormData();
-    // for (var key in obj) {
-    //   formData.append(key, obj[key]);
-    // }
-    // progressBar.show(true)
-    // return axios.put(RESOURCE_NAME + '/' + obj.id,
-    //   formData,
-    //   {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   })
-    //   .then(() => {
-    //     progressBar.show(false)
-    //     store.commit('pet/setConsultar', true)
-    //     return true
-    //   }).catch(() => {
-    //     return false
-    //   }).finally(() => {
-    //     return true
-    //   })
+    let formData = new FormData();
+    for (var key in obj) {
+      formData.append(key, obj[key]);
+    }
+    progressBar.show(true)
+    return axios.put(RESOURCE_NAME + '/' + obj.id,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(() => {
+        toastr.success(messages.sucesso.edicao)
+        progressBar.show(false)
+        store.commit('pet/setConsultar', true)
+        return true
+      }).catch(() => {
+        return false
+      }).finally(() => {
+        return true
+      })
   },
   excluir(idPet) {
     progressBar.show(true)
     return axios.delete(RESOURCE_NAME + "/" + idPet)
       .then(() => {
-        toastr.success('Operação realizada com sucesso!')
+        toastr.success(messages.sucesso.exclusao)
         progressBar.show(false)
         store.commit('pet/setConsultar', true)
         return true

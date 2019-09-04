@@ -21,5 +21,10 @@ export default {
         }
 
         return errorMessage
+    },
+    sucesso: {
+        cadastro: 'Cadastro realizado com sucesso!',
+        exclusao: 'Exclusão realizada com sucesso!',
+        edicao: 'Edição realizada com sucesso!'
     }
 }

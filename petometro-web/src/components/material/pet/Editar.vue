@@ -136,13 +136,13 @@ export default {
     },
     salvar() {
       if (this.$refs.form.validate()) {
-        // this.pet.imagem = this.imagem
-        // petService.Editar(this.pet)
-        // .then(res => {
-        //   if (res) {
+        this.pet.imagem = this.imagem
+        petService.editar(this.pet)
+        .then(res => {
+          if (res) {
             this.hide();
-        //   }
-        // });
+          }
+        });
       }
     }
   },
