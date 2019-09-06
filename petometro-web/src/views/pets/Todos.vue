@@ -7,6 +7,7 @@
           :pet="n"
           @showModalExcluir="onShowModalExcluir"
           @showModalEditar="onShowModalEditar"
+          @showModalAdicionarSolicitacao="onShowModalAdicionarSolicitacao"
         />
       </v-flex>
     </v-layout>
@@ -25,6 +26,12 @@
     />
     <material-pet-editar :pet="pet" :showEditar="showEditar" @fechar="showEditar = false" />
     <material-pet-filtro @filtrar="onFiltrar" />
+    <material-solicitacao-pet-adicionar
+      :showAdicionarSolicitacao="showAdicionarSolicitacao"
+      :idPet="pet.id"
+      :idUsuario="pet.idUsuario"
+      @fechar="showAdicionarSolicitacao = false"
+    />
   </div>
 </template>
 
@@ -41,6 +48,7 @@ export default {
       successSearch: false,
       showExcluir: false,
       showEditar: false,
+      showAdicionarSolicitacao: false,
       idPetSelecionado: 0,
       pet: {},
       filtro: {}
@@ -70,6 +78,10 @@ export default {
     onFiltrar(filtro) {
       this.filtro = filtro;
       this.consultarPets();
+    },
+    onShowModalAdicionarSolicitacao(pet) {
+      this.pet = pet;
+      this.showAdicionarSolicitacao = true;
     }
   },
   created() {

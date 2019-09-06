@@ -73,12 +73,6 @@
           </v-card-text>
         </div>
       </v-expand-transition>
-      <material-solicitacao-pet-adicionar
-        :showAdicionar="showAdicionar"
-        :idPet="pet.id"
-        :idUsuario="pet.idUsuario"
-        @fechar="showAdicionar = false"
-      />
     </v-card>
   </v-hover>
 </template>
@@ -88,7 +82,7 @@ import { mapState } from "vuex";
 import solicitacoesPetService from "@/services/solicitacoesPet";
 import axiosSourceToken from "@/utils/axiosSourceToken";
 import { situacaoSolicitacao } from "@/utils/enums";
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from "lodash/cloneDeep";
 
 export default {
   props: ["pet"],
@@ -96,8 +90,7 @@ export default {
     show: false,
     source: "",
     solicitacao: {},
-    solicitacaoInfo: {},
-    showAdicionar: false,
+    solicitacaoInfo: {}
   }),
   computed: {
     ...mapState("auth", ["userInfo"])
@@ -106,18 +99,20 @@ export default {
     this.verificarSolicitacoes();
   },
   methods: {
-    showExcluir (event) {
-      let id = this.pet.id
-      this.$emit('showModalExcluir', id)
+    showExcluir() {
+      let id = this.pet.id;
+      this.$emit("showModalExcluir", id);
     },
-    showEditar (event) {
-      let pet = cloneDeep(this.pet)
-      this.$emit('showModalEditar', pet)
+    showEditar() {
+      let pet = cloneDeep(this.pet);
+      this.$emit("showModalEditar", pet);
     },
-
     abrirModal(idModal) {
       //Adicionar
-      if (idModal == 1) this.showAdicionar = true;
+      if (idModal == 1) {
+        let pet = cloneDeep(this.pet);
+        this.$emit("showModalAdicionarSolicitacao", pet);
+      }
     },
     montarSolicitacaoInfo(solicitacoes) {
       let aceitas = solicitacoes.filter(
@@ -164,13 +159,13 @@ export default {
     verificarSolicitacoes() {
       if (this.pet.idUsuario !== this.userInfo.id) {
         this.source = axiosSourceToken.obterToken();
-        solicitacoesPetService.getBySolicitante(this.source, this.pet.id).then(
-          res => {
+        solicitacoesPetService
+          .getBySolicitante(this.source, this.pet.id)
+          .then(res => {
             if (res.pagina) {
               this.montarSolicitacaoInfo(res.itens);
             }
-          }
-        );
+          });
       } else {
         this.solicitacaoInfo = {
           color: "red darken-5",

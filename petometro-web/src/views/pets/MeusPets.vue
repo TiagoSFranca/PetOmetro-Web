@@ -1,5 +1,6 @@
 <template>
   <div fill-height fluid grid-list-sm>
+    <!-- <core-pagging v-if="successSearch && pets.itens.length !== 0 && !showProgress"/> -->
     <v-spacer />
     <v-layout wrap v-if="successSearch && pets.itens.length > 0">
       <v-flex v-for="n in pets.itens" :key="n.Id" lg4 md6 xs12 sm12>
@@ -25,6 +26,11 @@
     />
     <material-pet-editar :pet="pet" :showEditar="showEditar" @fechar="showEditar = false" />
     <material-pet-filtro @filtrar="onFiltrar" />
+    <core-pagging
+      v-if="successSearch && pets.itens.length !== 0 && !showProgress"
+      :totalPaginas="pets.totalPaginas"
+      :pagina="pets.pagina"
+    />
   </div>
 </template>
 
@@ -59,6 +65,7 @@ export default {
         } else {
           this.successSearch = false;
         }
+        console.log(this.pets);
         this.showProgress = false;
       });
     },

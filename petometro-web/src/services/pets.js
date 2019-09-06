@@ -33,12 +33,12 @@ export default {
   },
   get(query, source, filtro) {
     let queryFiltro = montarQueryFiltro(filtro)
-    
+
     if (!query.startsWith('?'))
       query = '?' + query
     query += queryFiltro
 
-    return axios.get(RESOURCE_NAME + query, {
+    return axios.get(RESOURCE_NAME + query + "&itensPorPagina=2", {
       cancelToken: source.token
     })
       .then((response) => {

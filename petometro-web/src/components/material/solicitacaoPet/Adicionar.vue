@@ -20,7 +20,7 @@
 import solicitacoesPetService from "@/services/solicitacoesPet";
 
 export default {
-  props: ["showAdicionar", "idPet", "idUsuario"],
+  props: ["showAdicionarSolicitacao", "idPet", "idUsuario"],
   data() {
     return {
       imagem: null,
@@ -44,9 +44,9 @@ export default {
     }
   },
   watch: {
-    showAdicionar() {
-      if (this.showAdicionar && !this.visible) this.show();
-      else if (!this.showAdicionar && this.visible) this.hide();
+    showAdicionarSolicitacao() {
+      if (this.showAdicionarSolicitacao && !this.visible) this.show();
+      else if (!this.showAdicionarSolicitacao && this.visible) this.hide();
     }
   }
 };
