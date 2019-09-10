@@ -1,7 +1,7 @@
 <template>
   <div fill-height fluid grid-list-sm>
     <v-spacer />
-    <v-layout wrap v-if="successSearch && pets.itens.length > 0">
+    <v-layout wrap v-if="successSearch && pets.totalItens > 0">
       <v-flex v-for="n in pets.itens" :key="n.Id" lg4 md6 xs12 sm12>
         <material-pet-card
           :pet="n"
@@ -12,7 +12,7 @@
       </v-flex>
     </v-layout>
     <v-layout v-else>
-      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.itens.length === 0 && !showProgress">
+      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.totalItens === 0 && !showProgress">
         <v-alert prominent type="info" class="mb-4">Nenhum Pet encontrado</v-alert>
       </v-flex>
       <v-flex lg12 md12 xs12 sm12 v-if="showProgress">
@@ -31,6 +31,15 @@
       :idPet="pet.id"
       :idUsuario="pet.idUsuario"
       @fechar="showAdicionarSolicitacao = false"
+    />
+    <core-paging
+      v-if="pets.totalItens > 0"
+      :totalPaginas="pets.totalPaginas"
+      :pagina="pets.pagina"
+      :totalItens="pets.totalItens"
+      :itensPorPagina="pets.itensPorPagina"
+      :qtdItens="pets.itens.length"
+      @paginar="onChangePaginar"
     />
   </div>
 </template>
@@ -51,21 +60,24 @@ export default {
       showAdicionarSolicitacao: false,
       idPetSelecionado: 0,
       pet: {},
-      filtro: {}
+      filtro: {},
+      paginacao: {}
     };
   },
   methods: {
     consultarPets() {
       this.showProgress = true;
       this.source = axiosSourceToken.obterToken();
-      petsService.get("", this.source, this.filtro).then(res => {
-        if (res) {
-          this.successSearch = true;
-        } else {
-          this.successSearch = false;
-        }
-        this.showProgress = false;
-      });
+      petsService
+        .get("", this.source, this.filtro, this.paginacao)
+        .then(res => {
+          if (res) {
+            this.successSearch = true;
+          } else {
+            this.successSearch = false;
+          }
+          this.showProgress = false;
+        });
     },
     onShowModalExcluir(idPet) {
       this.idPetSelecionado = idPet;
@@ -82,6 +94,10 @@ export default {
     onShowModalAdicionarSolicitacao(pet) {
       this.pet = pet;
       this.showAdicionarSolicitacao = true;
+    },
+    onChangePaginar(paginacao) {
+      this.paginacao = paginacao;
+      this.consultarPets();
     }
   },
   created() {

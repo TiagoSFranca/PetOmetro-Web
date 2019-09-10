@@ -3,11 +3,11 @@ import progressBar from '@/utils/progressBar'
 import toastr from '@/utils/toastr'
 import store from '@/store'
 import messages from '@/utils/messages'
+import { paginacao } from '@/utils/constants/'
 
 const RESOURCE_NAME = '/Pets'
 
 function montarQueryFiltro(filtro) {
-
   let query = ''
   if (filtro) {
     if (filtro.nome)
@@ -22,23 +22,44 @@ function montarQueryFiltro(filtro) {
       })
 
   }
+  return query
+}
 
+function montarPaginacaoFiltro(filtro) {
+  let query = ''
+  if (filtro) {
+    if (filtro.itensPorPagina)
+      query += "&itensPorPagina=" + filtro.itensPorPagina
+    else
+      query += "&itensPorPagina=" + paginacao.MINIMO
+    if (filtro.pagina)
+      query += "&pagina=" + filtro.pagina
+    else
+      query += "&pagina=" + 1
+  }
+  else {
+    query += "&itensPorPagina=" + paginacao.MINIMO
+    query += "&pagina=" + 1
+  }
   return query
 }
 
 export default {
 
-  meusPets(source, dono, filtro) {
-    return this.get(`?meusPets=true&dono=${dono}`, source, filtro)
+  meusPets(source, dono, filtro, paginacao) {
+    return this.get(`?meusPets=true&dono=${dono}`, source, filtro, paginacao)
   },
-  get(query, source, filtro) {
+  get(query, source, filtro, paginacao) {
     let queryFiltro = montarQueryFiltro(filtro)
+    let queryPaginacao = montarPaginacaoFiltro(paginacao);
 
     if (!query.startsWith('?'))
       query = '?' + query
-    query += queryFiltro
 
-    return axios.get(RESOURCE_NAME + query + "&itensPorPagina=2", {
+    query += queryFiltro
+    query += queryPaginacao
+
+    return axios.get(RESOURCE_NAME + query, {
       cancelToken: source.token
     })
       .then((response) => {

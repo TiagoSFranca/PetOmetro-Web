@@ -1,8 +1,7 @@
 <template>
   <div fill-height fluid grid-list-sm>
-    <!-- <core-pagging v-if="successSearch && pets.itens.length !== 0 && !showProgress"/> -->
     <v-spacer />
-    <v-layout wrap v-if="successSearch && pets.itens.length > 0">
+    <v-layout wrap v-if="successSearch && pets.totalItens > 0">
       <v-flex v-for="n in pets.itens" :key="n.Id" lg4 md6 xs12 sm12>
         <material-pet-card
           :pet="n"
@@ -12,8 +11,14 @@
       </v-flex>
     </v-layout>
     <v-layout v-else>
-      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.itens.length === 0 && !showProgress">
-        <v-alert prominent type="info" class="mb-4">Você ainda não possui pets</v-alert>
+      <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.totalItens === 0 && !showProgress">
+        <v-alert prominent type="info" class="mb-4" v-if="!filtro">Você ainda não possui pets</v-alert>
+        <v-alert
+          prominent
+          type="info"
+          class="mb-4"
+          v-else
+        >Pets não encontrados para o filtro especificado</v-alert>
       </v-flex>
       <v-flex lg12 md12 xs12 sm12 v-if="showProgress">
         <core-progress-circular :show="showProgress" />
@@ -26,10 +31,14 @@
     />
     <material-pet-editar :pet="pet" :showEditar="showEditar" @fechar="showEditar = false" />
     <material-pet-filtro @filtrar="onFiltrar" />
-    <core-pagging
-      v-if="successSearch && pets.itens.length !== 0 && !showProgress"
+    <core-paging
+      v-if="!showProgress && pets.totalItens > 0"
       :totalPaginas="pets.totalPaginas"
       :pagina="pets.pagina"
+      :totalItens="pets.totalItens"
+      :itensPorPagina="pets.itensPorPagina"
+      :qtdItens="pets.itens.length"
+      @paginar="onChangePaginar"
     />
   </div>
 </template>
@@ -49,7 +58,8 @@ export default {
       showEditar: false,
       idPetSelecionado: 0,
       pet: {},
-      filtro: {}
+      filtro: {},
+      paginacao: {}
     };
   },
   computed: {
@@ -59,15 +69,16 @@ export default {
     consultarMeusPets() {
       this.showProgress = true;
       this.source = axiosSourceToken.obterToken();
-      petsService.meusPets(this.source, true, this.filtro).then(res => {
-        if (res) {
-          this.successSearch = true;
-        } else {
-          this.successSearch = false;
-        }
-        console.log(this.pets);
-        this.showProgress = false;
-      });
+      petsService
+        .meusPets(this.source, true, this.filtro, this.paginacao)
+        .then(res => {
+          if (res) {
+            this.successSearch = true;
+          } else {
+            this.successSearch = false;
+          }
+          this.showProgress = false;
+        });
     },
     onShowModalExcluir(idPet) {
       this.idPetSelecionado = idPet;
@@ -79,6 +90,10 @@ export default {
     },
     onFiltrar(filtro) {
       this.filtro = filtro;
+      this.consultarMeusPets();
+    },
+    onChangePaginar(paginacao) {
+      this.paginacao = paginacao;
       this.consultarMeusPets();
     }
   },
