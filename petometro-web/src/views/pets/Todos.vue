@@ -13,7 +13,13 @@
     </v-layout>
     <v-layout v-else>
       <v-flex lg12 md12 xs12 sm12 v-if="successSearch && pets.totalItens === 0 && !showProgress">
-        <v-alert prominent type="info" class="mb-4">Nenhum Pet encontrado</v-alert>
+        <v-alert prominent type="info" class="mb-4" v-if="!filtro">Nenhum Pet encontrado</v-alert>
+        <v-alert
+          prominent
+          type="info"
+          class="mb-4"
+          v-else
+        >Nenhum Pet encontrado para o filtro especificado</v-alert>
       </v-flex>
       <v-flex lg12 md12 xs12 sm12 v-if="showProgress">
         <core-progress-circular :show="showProgress" />
@@ -33,7 +39,7 @@
       @fechar="showAdicionarSolicitacao = false"
     />
     <core-paging
-      v-if="pets.totalItens > 0"
+      v-if="!showProgress && pets.totalItens > 0"
       :totalPaginas="pets.totalPaginas"
       :pagina="pets.pagina"
       :totalItens="pets.totalItens"

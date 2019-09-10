@@ -61,4 +61,30 @@ export default [
       middleware: auth
     }
   },
+  {
+    path: '/solicitacoes-pet',
+    name: 'Solicitações Pet',
+    view: 'Solicitacoes-Pet',
+    meta: {
+      middleware: auth
+    },
+    children: [
+      {
+        path: '/',
+        name: 'Enviadas',
+        view: 'solicitacoesPet.Enviadas',
+        meta: {
+          middleware: auth
+        }
+      },
+      // {
+      //   path: 'recebidas',
+      //   name: 'Recebidas',
+      //   view: 'solicitacoesPet.Recebidas',
+      //   meta: {
+      //     middleware: auth
+      //   }
+      // }
+    ]
+  },
 ]

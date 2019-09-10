@@ -19,8 +19,8 @@
               background-color="blue lighten-1"
               color="deep-purple lighten-5"
               icons-and-text
-              fixed-tabs
               extended
+              grow
             >
               <v-tabs-slider />
               <v-tab v-for="tab in tabs" :key="tab.key" :to="tab.to">

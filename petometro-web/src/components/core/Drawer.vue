@@ -63,6 +63,11 @@ export default {
           to: "/pets",
           icon: "mdi-paw",
           text: "Pets"
+        },
+        {
+          to: "/solicitacoes-pet",
+          icon: "mdi-paw",
+          text: "Solicitações Pet"
         }
       ]
     };

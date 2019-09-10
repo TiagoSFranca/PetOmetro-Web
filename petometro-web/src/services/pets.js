@@ -45,7 +45,6 @@ function montarPaginacaoFiltro(filtro) {
 }
 
 export default {
-
   meusPets(source, dono, filtro, paginacao) {
     return this.get(`?meusPets=true&dono=${dono}`, source, filtro, paginacao)
   },
