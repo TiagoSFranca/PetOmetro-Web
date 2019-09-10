@@ -52,5 +52,13 @@ export default [
         }
       }
     ]
-  }
+  },
+  {
+    path: '/pets/:id',
+    name: 'Pet',
+    view: 'pets.Info',
+    meta: {
+      middleware: auth
+    }
+  },
 ]

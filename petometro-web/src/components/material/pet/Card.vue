@@ -43,7 +43,7 @@
         <v-btn icon v-if="userInfo.id === pet.idUsuario">
           <v-icon color="indigo darken-4" @click="showEditar()">mdi-pencil-outline</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon :to="'/pets/' + pet.id">
           <v-icon color="indigo darken-4">mdi-eye-outline</v-icon>
         </v-btn>
         <v-btn
