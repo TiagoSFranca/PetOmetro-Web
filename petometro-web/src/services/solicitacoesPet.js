@@ -3,13 +3,14 @@ import store from '@/store'
 import progressBar from '@/utils/progressBar'
 import toastr from '@/utils/toastr'
 import messages from '@/utils/messages'
+import paginacaoUtil from '@/utils/paginacao'
 
 const RESOURCE_NAME = '/SolicitacoesPet'
 
 export default {
-    getEnviadas(source, ) {
+    getEnviadas(source, filtro, paginacao) {
         var idSolicitante = store.state.auth.userInfo.id
-        return this.get(`?idSolicitantes=${idSolicitante}`, source)
+        return this.get(`?idSolicitantes=${idSolicitante}`, source, filtro, paginacao)
     },
     getBySolicitante(source, pet) {
         var idSolicitante = store.state.auth.userInfo.id
@@ -25,7 +26,14 @@ export default {
                 return true;
             })
     },
-    get(query, source) {
+    get(query, source, filtro, paginacao) {
+        let queryPaginacao = paginacaoUtil.montarPaginacaoFiltro(paginacao);
+
+        if (!query.startsWith('?'))
+            query = '?' + query
+
+        query += queryPaginacao
+
         return axios.get(RESOURCE_NAME + query, {
             cancelToken: source.token
         })
@@ -62,7 +70,6 @@ export default {
         progressBar.show(true)
         return axios.delete(RESOURCE_NAME + "/" + idSolicitacao)
             .then(() => {
-                console.log('aqio')
                 toastr.success(messages.sucesso.exclusao)
                 progressBar.show(false)
                 store.commit('solicitacaoPet/setConsultar', true)

@@ -27,7 +27,7 @@
       </v-list-item>
       <v-img
         :src="pet.urlImagem !== null ? pet.urlImagem : '/images/img_nf.png'"
-        height="200px"
+        height="150px"
         contain
       >
         <template v-slot:placeholder>

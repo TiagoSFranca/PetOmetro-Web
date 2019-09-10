@@ -36,6 +36,15 @@
       :idSolicitacao="idSolicitacaoSelecionada"
       @fechar="showExcluir = false"
     />
+    <core-paging
+      v-if="!showProgress && solicitacoes.totalItens > 0"
+      :totalPaginas="solicitacoes.totalPaginas"
+      :pagina="solicitacoes.pagina"
+      :totalItens="solicitacoes.totalItens"
+      :itensPorPagina="solicitacoes.itensPorPagina"
+      :qtdItens="solicitacoes.itens.length"
+      @paginar="onChangePaginar"
+    />
   </div>
 </template>
 
@@ -52,7 +61,8 @@ export default {
       successSearch: false,
       showExcluir: false,
       idSolicitacaoSelecionada: 0,
-      filtro: {}
+      filtro: {},
+      paginacao: {}
     };
   },
   methods: {
@@ -60,7 +70,7 @@ export default {
       this.showProgress = true;
       this.source = axiosSourceToken.obterToken();
       solicitacoesPetService
-        .get("", this.source, this.filtro, this.paginacao)
+        .getEnviadas(this.source, this.filtro, this.paginacao)
         .then(res => {
           if (res) {
             this.successSearch = true;
@@ -73,6 +83,10 @@ export default {
     onShowModalExcluir(idSolicitacao) {
       this.idSolicitacaoSelecionada = idSolicitacao;
       this.showExcluir = true;
+    },
+    onChangePaginar(paginacao) {
+      this.paginacao = paginacao;
+      this.consultarSolicitacoes();
     }
   },
   created() {

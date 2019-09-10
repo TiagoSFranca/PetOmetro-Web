@@ -28,10 +28,20 @@
         <v-list-item-content>
           <v-list-item-title class="headline">{{solicitacaoPet.pet.nome}}</v-list-item-title>
           <v-list-item-subtitle
-            v-if="solicitacaoPet.idUsuarioSolicitante !==userInfo.id"
+            v-if="solicitacaoPet.pet.idUsuario !== userInfo.id"
           >de {{solicitacaoPet.usuarioSolicitado.nome}}</v-list-item-subtitle>
           <v-list-item-subtitle v-else>&nbsp</v-list-item-subtitle>
         </v-list-item-content>
+        <v-list-item-avatar color="blue lighten-5">
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-btn icon :to="'/pets/' + solicitacaoPet.pet.id" v-on="on">
+                <v-icon color="indigo darken-4">mdi-eye-outline</v-icon>
+              </v-btn>
+            </template>
+            <span>Visualizar Pet</span>
+          </v-tooltip>
+        </v-list-item-avatar>
       </v-list-item>
       <v-img
         height="100px"
