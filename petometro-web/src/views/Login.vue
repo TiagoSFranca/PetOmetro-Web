@@ -34,6 +34,7 @@
               />
             </v-card-text>
             <v-card-actions>
+              <v-btn color="teal lighten-1" text dark to="/register">Cadastre-se</v-btn>
               <v-spacer />
               <v-btn :disabled="!valid" color="primary" type="submit">Entrar</v-btn>
             </v-card-actions>

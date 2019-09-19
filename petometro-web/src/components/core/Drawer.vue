@@ -5,12 +5,11 @@
     app
     overflow
     src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
+    v-if="isAuth"
   >
     <v-list-item dark>
       <v-list-item-content>
-        <v-list-item-title class="title">
-          PetÔmetro
-        </v-list-item-title>
+        <v-list-item-title class="title">PetÔmetro</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
@@ -39,10 +38,6 @@
           color="amber darken-1"
           @click="logout()"
         >Sair</v-btn>
-        <div v-else>
-          <v-btn color="teal lighten-1" block text dark to="/login">Entrar</v-btn>
-          <v-btn color="teal lighten-1" block text dark to="/register">Cadastre-se</v-btn>
-        </div>
       </div>
     </template>
   </v-navigation-drawer>

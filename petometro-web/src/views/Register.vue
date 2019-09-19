@@ -78,6 +78,7 @@
               </v-row>
             </v-card-text>
             <v-card-actions>
+              <v-btn color="teal lighten-1" text dark to="/login">Entrar</v-btn>
               <v-spacer />
               <v-btn :disabled="!valid" color="primary" type="submit">Cadastrar</v-btn>
             </v-card-actions>
